@@ -11,6 +11,7 @@ public class OrderPage {
     // драйвер
     private WebDriver driver;
 
+    private final By orderHeader = By.className("Order_Header__BZXOb");
     //локатор поля Имя
     private final By nameField = By.xpath("//input[@placeholder='* Имя']");
     //локатор поля Фамилия
@@ -49,6 +50,11 @@ public class OrderPage {
         this.driver = driver;
     }
 
+    public void waitOrderHeaderLoad(){
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfElementLocated(orderHeader));
+
+    }
     //метод ввода имени
     public void fillName(String name){
         driver.findElement(nameField).sendKeys(name);

@@ -2,17 +2,12 @@ package Praktikum;
 
 import PageObjects.MainPage;
 import PageObjects.OrderPage;
-import org.junit.After;
 import org.junit.Rule;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.WebDriver;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import static org.junit.Assert.assertTrue;
 
 
@@ -68,8 +63,29 @@ public class OrderTest {
     }
 
     @Test
-    public void TestOrder(){
+    public void TestOrderHeader(){
+        mainPage.clickCookiesButton();
         mainPage.clickOrderButtonHeader();
+        orderPage.waitOrderHeaderLoad();
+        orderPage.fillName(name);
+        orderPage.fillSurname(surname);
+        orderPage.fillAddress(address);
+        orderPage.selectMetro(metro);
+        orderPage.fillPhone(phone);
+        orderPage.clickNextButton();
+        orderPage.fillDateField(date);
+        orderPage.fillPeriodField(period);
+        orderPage.selectColor(color);
+        orderPage.fillCommentField(comment);
+        orderPage.clickOrderButton();
+        orderPage.clickConfirmOrderButton();
+        assertTrue(orderPage.checkOrderOK());
+    }
+    @Test
+    public void TestOrderBody(){
+        mainPage.clickCookiesButton();
+        mainPage.clickOrderButtonBody();
+        orderPage.waitOrderHeaderLoad();
         orderPage.fillName(name);
         orderPage.fillSurname(surname);
         orderPage.fillAddress(address);

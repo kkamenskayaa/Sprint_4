@@ -24,7 +24,7 @@ public class MainPage {
     //локатор кнопки заказать в хедере
     private final By orderButtonHeader = By.className("Button_Button__ra12g");
     //локатор кнопки заказать в теле
-    private final By orderButtonBody = By.xpath("//button[contains(@class, 'Button_UltraBig__UU3Lp')]");
+    private By orderButtonBody = By.xpath(".//div[@class = 'Home_ThirdPart__LSTEE']/div[@class = 'Home_RoadMap__2tal_']/div[@class = 'Home_FinishButton__1_cWm']/button");
 
     // конструктор
     public MainPage(WebDriver driver){
@@ -35,8 +35,13 @@ public class MainPage {
     public void clickCookiesButton(){
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.visibilityOfElementLocated(cookieButton)).click();
+        waitForCookiesFloaterToDisappear();
     }
-
+    // подождать, пока флоатер куков пропадёт
+    public void waitForCookiesFloaterToDisappear() {
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.invisibilityOfElementLocated(cookieButton));
+    }
     // нажатие на кнопку "Заказать" в хедере
     public void clickOrderButtonHeader(){
         new WebDriverWait(driver, Duration.ofSeconds(5))
@@ -44,12 +49,15 @@ public class MainPage {
         driver.findElement(orderButtonHeader).click();
     }
 
+
     // нажатие на кнопку "Заказать" на странице
-    public void clickOrderButtonBody(){
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.visibilityOfElementLocated(orderButtonBody));
-        driver.findElement(orderButtonBody).click();
+    public void clickOrderButtonBody() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement button = wait.until(ExpectedConditions.visibilityOfElementLocated(orderButtonBody));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", button);
+        button.click();
     }
+
 
     //скролл до FAQ секции
     public void scrollToQuestion(int index){
